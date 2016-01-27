@@ -35,7 +35,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.0/backbone.localStorage-min.js" type="text/javascript"></script>
     <script type="text/template" id='item-template'>
       <div class='view'>
-        <input class='toggle' type='checkbox'>
+        <input class='toggle' type='checkbox' <%= completed ? 'checked' : '' %> >
         <label> <%- title %> </label>
         <input class='edit' value='<%- title %>'>
         <button class='destroy'>Remove</button>
@@ -49,6 +49,9 @@
         defaults: {
           title: '',
           completed: false
+        },
+        toggle:function(){
+          this.save({completed: !this.get('completed')})
         }
       });
       //COLLECTIONs============================================================
@@ -96,6 +99,12 @@
         updateOnEnter: function(e){
           if(e.which == 13)
               this.close();
+        },
+        destroy: function(){
+          this.model.destroy();
+        },
+        toggleCompleted: function(){
+          this.model.toggle();
         }
       });
       //----------------------------------------------------------
